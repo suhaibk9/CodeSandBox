@@ -1,7 +1,7 @@
-import axiosInstnace from "../config/axiosConfig";
+import axiosInstance from "../config/axiosConfig";
 const pingApi = async () => {
   try {
-    const res = await axiosInstnace.get("/api/v1/ping");
+    const res = await axiosInstance.get("/api/v1/ping");
     console.log(res["msg"]);
   } catch (err) {
     console.error(err);
