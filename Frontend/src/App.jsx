@@ -4,14 +4,19 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import { useEffect } from "react";
 import { pingApi } from "./apis/ping";
+import usePing from "./hooks/apis/queries/usePing";
 
 function App() {
-  useEffect(() => {
-    pingApi();
-  }, []);
+  const { data, isLoading, isError, error } = usePing();
+  if (isLoading) {
+    return <h1>Loading....</h1>;
+  } else if (isError) {
+    return <h1>Error...</h1>;
+  }
   return (
     <>
-      <h1>Hello</h1>
+      <h1>{data.data.msg}</h1>
+
     </>
   );
 }
