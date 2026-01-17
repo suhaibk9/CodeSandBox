@@ -8,6 +8,7 @@ import usePing from "./hooks/apis/queries/usePing";
 
 function App() {
   const { data, isLoading, isError, error } = usePing();
+  const [isVisble, setIsVisible] = useState(false);
   if (isLoading) {
     return <h1>Loading....</h1>;
   } else if (isError) {
@@ -16,7 +17,6 @@ function App() {
   return (
     <>
       <h1>{data.data.msg}</h1>
-
     </>
   );
 }
