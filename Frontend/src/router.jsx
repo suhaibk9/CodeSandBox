@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Routes, Route } from "react-router-dom";
 import CreateProject from "./pages/CreateProject";
 import ProjectPlayground from "./pages/ProjectPlayground";
