@@ -1,18 +1,20 @@
 import useProjectMutation from "../hooks/apis/mutations/useProjectsMutation";
 import { Button, Layout, Card, Typography, Space, Spin, Result } from "antd";
 import { RocketOutlined, PlusCircleOutlined } from "@ant-design/icons";
-
+import { useNavigate } from "react-router-dom";
 const { Header, Content, Footer } = Layout;
 const { Title, Text } = Typography;
 
 const CreateProject = () => {
+  const navigate = useNavigate();
   const { createProject, isSuccess, isError, isPending, error } =
     useProjectMutation();
 
   const handleCreateProject = async (language) => {
     try {
       const result = await createProject(language);
-      console.log("Project created:", result);
+      console.log("Project created:", result.data);
+      if (result?.data?.projectId) navigate(`/project/${result.data.projectId}`);
     } catch (err) {
       console.error("Failed to create project:", err);
     }

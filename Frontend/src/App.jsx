@@ -1,14 +1,7 @@
-import CreateProject from "./pages/createProject";
-import { Routes, Route } from "react-router-dom";
+import AppRouter from "./router";
 
 function App() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<CreateProject />} />
-      </Routes>
-    </>
-  );
+  return <AppRouter />;
 }
 
 export default App;
