@@ -1,7 +1,8 @@
 import useTreeStructureStore from "../../../store/treeStructureStore";
-
-const TreeNode = () => {
-  const { treeStructure } = useTreeStructureStore();
+import { FaChevronRight } from "react-icons/fa";
+import { FaChevronDown } from "react-icons/fa";
+const TreeNode = ({ nodeData }) => {
+ console.log("NodeData",nodeData)
   //Folder - Has Children
   //File - No Children
   return (
@@ -12,8 +13,16 @@ const TreeNode = () => {
           color: "white",
         }}
       >
-        {nodeData.children?}
+        {nodeData?.children ? (
+          <button>
+            <FaChevronRight style={{ width: "10px", height: "10px" }} />{" "}
+            {nodeData?.name}
+          </button>
+        ) : (
+          <p>{nodeData?.name}</p>
+        )}
       </div>
     </>
   );
 };
+export default TreeNode;

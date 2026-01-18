@@ -12,7 +12,7 @@ const useTreeStructureStore = create((set, get) => {
         queryKey: ["projectTree", projectId],
         queryFn: () => getProjectTree(projectId),
       });
-      set({ treeStructure: data.data });
+      set({ treeStructure: data.data.data });
     },
     setProjectId: (pId) => set({ projectId: pId }),
   };

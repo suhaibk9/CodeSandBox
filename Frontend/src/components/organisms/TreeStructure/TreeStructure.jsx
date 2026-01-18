@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import useTreeStructureStore from "../../../store/treeStructureStore";
 import { useEffect } from "react";
-
+import TreeNode from "../../molecules/TreeNode/TreeNode";
 export const TreeStructure = () => {
   const { projectId } = useParams();
   const { treeStructure, setTreeStructure } = useTreeStructureStore();
@@ -9,5 +9,11 @@ export const TreeStructure = () => {
     if (!treeStructure) setTreeStructure();
     else console.log("treeStructureData", treeStructure);
   }, [projectId, setTreeStructure]);
-  return <h1>TreeStructure</h1>;
+  if (!treeStructure) return <div>Loading....</div>;
+  return (
+    <>
+      <h1>TreeStructure</h1>
+      <TreeNode nodeData={treeStructure} />
+    </>
+  );
 };
