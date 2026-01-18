@@ -9,3 +9,12 @@ export const projectsApi = async (language = "js") => {
     throw err;
   }
 };
+export const getProjectTree = async (projectId) => {
+  try {
+    const res = await axiosInstance.get(`/api/v1/projects/${projectId}/tree`);
+    return res;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
