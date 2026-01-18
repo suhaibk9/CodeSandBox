@@ -21,7 +21,6 @@ const ProjectPlayground = () => {
       <EditorButton fileName="File.ts" isActive={true} />
       <EditorButton fileName="File.tsx" />
       <EditorButton fileName="File.jsx" isActive={true} />
-      
     </>
   );
 };

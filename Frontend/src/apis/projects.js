@@ -1,8 +1,14 @@
 import axiosInstance from "../config/axiosConfig";
 
-export const projectsApi = async (language = "js") => {
+export const projectsApi = async ({
+  language = "js",
+  projectName = "react-playground",
+}) => {
   try {
-    const res = await axiosInstance.post("/api/v1/projects", { language });
+    const res = await axiosInstance.post("/api/v1/projects", {
+      language,
+      projectName,
+    });
     return res;
   } catch (err) {
     console.error(err);

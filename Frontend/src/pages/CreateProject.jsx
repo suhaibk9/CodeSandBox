@@ -1,20 +1,51 @@
 import useProjectMutation from "../hooks/apis/mutations/useProjectsMutation";
-import { Button, Layout, Card, Typography, Space, Spin, Result } from "antd";
-import { RocketOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+  Button,
+  Layout,
+  Card,
+  Typography,
+  Space,
+  Spin,
+  Result,
+  Input,
+} from "antd";
+import {
+  RocketOutlined,
+  PlusCircleOutlined,
+  CloseOutlined,
+} from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const { Header, Content, Footer } = Layout;
 const { Title, Text } = Typography;
 
 const CreateProject = () => {
   const navigate = useNavigate();
+  const [projectName, setProjectName] = useState("");
+  const [selectedLanguage, setSelectedLanguage] = useState(null);
   const { createProject, isSuccess, isError, isPending, error } =
     useProjectMutation();
 
-  const handleCreateProject = async (language) => {
+  const handleLanguageSelect = (language) => {
+    setSelectedLanguage(language);
+    setProjectName("");
+  };
+
+  const handleCancel = () => {
+    setSelectedLanguage(null);
+    setProjectName("");
+  };
+
+  const handleCreateProject = async () => {
+    if (!projectName.trim()) return;
     try {
-      const result = await createProject(language);
+      const result = await createProject({
+        language: selectedLanguage,
+        projectName: projectName.trim(),
+      });
       console.log("Project created:", result.data);
-      if (result?.data?.projectId) navigate(`/project/${result.data.projectId}`);
+      if (result?.data?.projectId)
+        navigate(`/project/${result.data.projectId}`);
     } catch (err) {
       console.error("Failed to create project:", err);
     }
@@ -92,13 +123,67 @@ const CreateProject = () => {
                 title="Creation Failed"
                 subTitle={error?.message || "Something went wrong"}
               />
+            ) : selectedLanguage ? (
+              <Space
+                direction="vertical"
+                size="middle"
+                style={{ width: "100%" }}
+              >
+                <Text strong>
+                  Creating{" "}
+                  {selectedLanguage === "ts" ? "TypeScript" : "JavaScript"}{" "}
+                  Project
+                </Text>
+                <Input
+                  placeholder="Enter project name (required)"
+                  value={projectName}
+                  onChange={(e) => setProjectName(e.target.value)}
+                  size="large"
+                  style={{
+                    borderRadius: 8,
+                    fontSize: 16,
+                  }}
+                  status={projectName.trim() === "" ? "error" : ""}
+                />
+                <Space size="middle">
+                  <Button
+                    size="large"
+                    icon={<CloseOutlined />}
+                    onClick={handleCancel}
+                    style={{
+                      ...buttonStyle,
+                      background: "#f5f5f5",
+                      color: "#666",
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="primary"
+                    size="large"
+                    icon={<PlusCircleOutlined />}
+                    onClick={handleCreateProject}
+                    disabled={!projectName.trim()}
+                    style={{
+                      ...buttonStyle,
+                      background:
+                        selectedLanguage === "ts"
+                          ? "linear-gradient(135deg, #3178c6 0%, #235a97 100%)"
+                          : "linear-gradient(135deg, #f7df1e 0%, #e6c200 100%)",
+                      color: selectedLanguage === "ts" ? "#fff" : "#000",
+                    }}
+                  >
+                    Create
+                  </Button>
+                </Space>
+              </Space>
             ) : (
               <Space size="middle">
                 <Button
                   type="primary"
                   size="large"
                   icon={<PlusCircleOutlined />}
-                  onClick={() => handleCreateProject("js")}
+                  onClick={() => handleLanguageSelect("js")}
                   style={{
                     ...buttonStyle,
                     background:
@@ -112,7 +197,7 @@ const CreateProject = () => {
                   type="primary"
                   size="large"
                   icon={<PlusCircleOutlined />}
-                  onClick={() => handleCreateProject("ts")}
+                  onClick={() => handleLanguageSelect("ts")}
                   style={{
                     ...buttonStyle,
                     background:

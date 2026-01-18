@@ -5,13 +5,14 @@ import {
 
 export const projectController = async (req, res) => {
   try {
-    const { language = "js" } = req.body;
-    const result = await createProjectService(language);
+    const { language = "js", projectName = "react-playground" } = req.body;
+    const result = await createProjectService(language, projectName);
 
     return res.status(200).json({
       msg: `New React ${language.toUpperCase()} Project Created`,
       projectId: result.projectId,
       language: result.language,
+      projectName: result.projectName,
     });
   } catch (error) {
     console.error("Error creating project:", error);
