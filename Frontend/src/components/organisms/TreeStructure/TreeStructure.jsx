@@ -12,7 +12,7 @@ export const TreeStructure = () => {
   if (!treeStructure) return <div>Loading....</div>;
   return (
     <>
-      <h1>TreeStructure</h1>
+
       <TreeNode nodeData={treeStructure} />
     </>
   );
