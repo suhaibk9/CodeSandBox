@@ -15,6 +15,7 @@ A powerful, browser-based development environment that lets you create and edit 
 ### Frontend
 
 - **React**: For building the user interface.
+- **Vite**: Super fast build tool and development server.
 - **Monaco Editor**: The code editor component.
 - **Ant Design**: For polished UI components and layout.
 - **Socket.io-client**: For real-time communication with the backend.
@@ -24,4 +25,3 @@ A powerful, browser-based development environment that lets you create and edit 
 - **Node.js & Express.js**: Handles API requests and project management.
 - **Socket.io**: Enables bi-directional communication for file operations and terminal output.
 - **Chokidar**: Robust file watching to detect and broadcast changes.
-- **Vite**: Used under the hood to scaffold new projects rapidly.
