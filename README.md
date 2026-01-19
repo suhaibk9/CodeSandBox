@@ -1,16 +1,27 @@
-# React + Vite
+# Code Sandbox Clone
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A powerful, browser-based development environment that lets you create and edit React projects instantly. This application mimics the look and feel of VS Code, giving you a full-featured code editor right in your browser.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Instant Project Creation**: Spin up React projects (JavaScript or TypeScript) with custom project names in seconds used Vite.
+- **VS Code-like Interface**: familiar sidebar file explorer and tabbed editing experience.
+- **Monaco Editor**: Built using the same editor engine as VS Code for syntax highlighting, intellisense, and a premium typing experience.
+- **Real-time File Sync**: Uses **Socket.io** and **Chokidar** to watch for file changes on the server and sync them immediately to the frontend.
+- **Terminal Access**: Integrated terminal support for running commands.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Frontend
 
-## Expanding the ESLint configuration
+- **React**: For building the user interface.
+- **Monaco Editor**: The code editor component.
+- **Ant Design**: For polished UI components and layout.
+- **Socket.io-client**: For real-time communication with the backend.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Backend
+
+- **Node.js & Express.js**: Handles API requests and project management.
+- **Socket.io**: Enables bi-directional communication for file operations and terminal output.
+- **Chokidar**: Robust file watching to detect and broadcast changes.
+- **Vite**: Used under the hood to scaffold new projects rapidly.
