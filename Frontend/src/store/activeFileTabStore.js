@@ -2,11 +2,12 @@ import { create } from "zustand";
 
 const useActiveFileTabStore = create((set) => ({
   activeFileTab: null,
-  setActiveFileTab: (path, fileName, extension) => {
+  setActiveFileTab: (path, value, extension) => {
     set({
       activeFileTab: {
         path: path,
-        fileName: fileName,
+
+        value: value,
         extension: extension,
       },
     });

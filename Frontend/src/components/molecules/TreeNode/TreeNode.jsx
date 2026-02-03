@@ -5,6 +5,7 @@ import {
   FaFolder,
   FaFolderOpen,
 } from "react-icons/fa";
+import { useActiveFileTabStore } from "../../../store/activeFileTabStore";
 import {
   SiJavascript,
   SiTypescript,
@@ -16,6 +17,7 @@ import {
   SiNpm,
 } from "react-icons/si";
 import { VscFile } from "react-icons/vsc";
+import { useEditorSocketStore } from "../../../store/editorSocketStore";
 
 const getFileIcon = (fileName) => {
   const ext = fileName.split(".").pop().toLowerCase();
@@ -48,6 +50,8 @@ const getFileIcon = (fileName) => {
 };
 
 const TreeNode = ({ nodeData }) => {
+  const { editorSocket } = useEditorSocketStore();
+  console.log("EDITOR SOCKET:", editorSocket);
   const [visibleObj, setVisibleObj] = useState({});
   const handleToggleVisibility = (currentFolderName) => {
     setVisibleObj((prev) => {
@@ -57,6 +61,11 @@ const TreeNode = ({ nodeData }) => {
 
   const isFolder = nodeData?.children;
   const isOpen = visibleObj[nodeData.name];
+  const handleDoubleClick = (nodeData) => {
+    console.log("Double clicked file:", nodeData);
+    editorSocket.emit("readFile", nodeData.path);
+    
+  };
 
   return (
     <>
@@ -135,6 +144,7 @@ const TreeNode = ({ nodeData }) => {
         ) : (
           // File
           <p
+            onDoubleClick={() => handleDoubleClick(nodeData)}
             style={{
               display: "flex",
               alignItems: "center",

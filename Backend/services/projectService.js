@@ -4,7 +4,7 @@ import path from "path";
 import fs from "fs/promises";
 import { execPromisified } from "../utils/execUtility.js";
 import directoryTree from "directory-tree";
-import { dir } from "console";
+
 export const createProjectService = async (
   language = "js",
   projectName = "react-playground",
@@ -29,6 +29,7 @@ export const createProjectService = async (
     projectName,
   };
 };
+
 export const getProjectTreeService = async (projectId) => {
   const projectPath = path.resolve("./Projects/" + projectId);
   return directoryTree(projectPath);

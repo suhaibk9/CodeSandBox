@@ -6,6 +6,9 @@ import { PORT } from "./config/serverConfig.js";
 import apiRouter from "../routes/index.js";
 import chokidar from "chokidar"; // File system watcher - monitors file/folder changes in real-time
 import path from "node:path";
+import queryString from "query-string";
+
+import { handleEditorSocketEvents } from "../socketHandlers/editorHandler.js";
 const app = express();
 
 // Create HTTP server wrapping Express app
@@ -57,8 +60,14 @@ const editorNamespace = io.of("/editor");
 editorNamespace.on("connection", (socket) => {
   console.log("Editor namespace connected");
 
-  // Example: const projectId = socket.handshake.query.projectId;
-  let projectId = "9ed3d636-abc8-4b88-b63b-4dadffcb312c";
+  // // const projectId = queryString.parse(socket.handshake.query.projectId).projectId;
+  // let queryParams=queryString.parse(socket.handshake.query);
+  // console.log("Query Params:", queryParams);
+  // let projectId=queryParams.projectId;
+
+  let projectId = socket.handshake.query.projectId;
+  console.log("Project ID for this socket:", projectId);
+  // let projectId = "bf518c44-943c-4c0e-9ba7-98feded08735";
   if (projectId) {
     // ============================================
     // CHOKIDAR FILE WATCHER
@@ -67,7 +76,7 @@ editorNamespace.on("connection", (socket) => {
     // When files change, we can notify connected clients via socket
     // This enables real-time file sync - when files change on disk, UI updates
 
-    const watcher = chokidar.watch("./Projects/" + projectId, {
+    var watcher = chokidar.watch("./Projects/" + projectId, {
       // Ignore node_modules to avoid watching thousands of files
       ignored: (filePath) => filePath.includes("node_modules"),
 
@@ -112,6 +121,13 @@ editorNamespace.on("connection", (socket) => {
   // Client sends: socket.emit("message", { content: "hello" })
   socket.on("message", (data) => {
     console.log("Received message event:", data);
+    const message = JSON.parse(data.toString());
+  });
+  // Handle editor-specific socket events
+  handleEditorSocketEvents(socket);
+  socket.on("disconnect", async () => {
+    await watcher.close();
+    console.log("A user disconnected from editor namespace");
   });
 });
 
