@@ -11,13 +11,16 @@ const ProjectPlayground = () => {
   const { projectId, setProjectId } = useTreeStructureStore();
   const { editorSocket, setEditorSocket } = useEditorSocketStore();
   useEffect(() => {
+    if (!projectIdFromURL) return;
     setProjectId(projectIdFromURL);
-    
     const editorSocketConntection = io(
       import.meta.env.VITE_API_BASE_URL + "/editor",
       { query: { projectId: projectIdFromURL } },
     );
-    setEditorSocket(editorSocketConntection);
+    setEditorSocket(editorSocketConntection, projectIdFromURL);
+    return () => {
+      editorSocketConntection.disconnect(); // cleanup when switching again
+    };
   }, [projectIdFromURL, setProjectId]);
 
   return (

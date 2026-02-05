@@ -11,10 +11,15 @@ const useTreeStructureStore = create((set, get) => {
       const data = await queryClient.fetchQuery({
         queryKey: ["projectTree", projectId],
         queryFn: () => getProjectTree(projectId),
+        staleTime: 0, // Always refetch
+        cacheTime: 0, // Don't cache
       });
       set({ treeStructure: data.data.data });
     },
-    setProjectId: (pId) => set({ projectId: pId }),
+    setProjectId: (pId) => {
+      // Reset treeStructure when projectId changes
+      set({ projectId: pId, treeStructure: null });
+    },
   };
 });
 

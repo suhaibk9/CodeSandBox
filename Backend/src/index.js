@@ -67,8 +67,17 @@ editorNamespace.on("connection", (socket) => {
 
   let projectId = socket.handshake.query.projectId;
   console.log("Project ID for this socket:", projectId);
-  // let projectId = "bf518c44-943c-4c0e-9ba7-98feded08735";
+
   if (projectId) {
+    // Auto-join the project room
+    socket.join(projectId);
+    console.log(`Socket ${socket.id} joined room: ${projectId}`);
+
+    // Notify others in the room that someone joined
+    socket
+      .to(projectId)
+      .emit("userJoined", `User ${socket.id} joined the project`);
+
     // ============================================
     // CHOKIDAR FILE WATCHER
     // ============================================
@@ -106,9 +115,6 @@ editorNamespace.on("connection", (socket) => {
     watcher.on("all", (evt, filePath) => {
       console.log("File event:", evt);
       console.log("File path:", filePath);
-
-      // TODO: Emit event to client to refresh file tree or file content
-      // socket.emit("fileChange", { event: evt, path: filePath });
     });
 
     // Clean up watcher when client disconnects to prevent memory leaks
@@ -117,18 +123,9 @@ editorNamespace.on("connection", (socket) => {
       console.log("Editor client disconnected, watcher closed");
     });
   }
-  // Listen for messages from client
-  // Client sends: socket.emit("message", { content: "hello" })
-  socket.on("message", (data) => {
-    console.log("Received message event:", data);
-    const message = JSON.parse(data.toString());
-  });
+
   // Handle editor-specific socket events
-  handleEditorSocketEvents(socket);
-  socket.on("disconnect", async () => {
-    await watcher.close();
-    console.log("A user disconnected from editor namespace");
-  });
+  handleEditorSocketEvents(socket, projectId);
 });
 
 server.listen(PORT, () => {

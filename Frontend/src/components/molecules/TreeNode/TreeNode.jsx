@@ -18,6 +18,8 @@ import {
 } from "react-icons/si";
 import { VscFile } from "react-icons/vsc";
 import { useEditorSocketStore } from "../../../store/editorSocketStore";
+import { useContextMenuStore } from "../../../store/fileContextMenuStore";
+import { useFolderContextMenuStore } from "../../../store/folderContextMenuStore";
 
 const getFileIcon = (fileName) => {
   const ext = fileName.split(".").pop().toLowerCase();
@@ -50,6 +52,18 @@ const getFileIcon = (fileName) => {
 };
 
 const TreeNode = ({ nodeData }) => {
+  const {
+    setX: setFileX,
+    setY: setFileY,
+    setFile,
+    setIsOpen: setFileContext,
+  } = useContextMenuStore();
+  const {
+    setX: setFolderX,
+    setY: setFolderY,
+    setFolder,
+    setIsOpen: setFolderContext,
+  } = useFolderContextMenuStore();
   const { editorSocket } = useEditorSocketStore();
   console.log("EDITOR SOCKET:", editorSocket);
   const [visibleObj, setVisibleObj] = useState({});
@@ -64,9 +78,24 @@ const TreeNode = ({ nodeData }) => {
   const handleDoubleClick = (nodeData) => {
     console.log("Double clicked file:", nodeData);
     editorSocket.emit("readFile", nodeData.path);
-    
   };
-
+  const handleRightClick = (e, nodeData) => {
+    console.log("right click", nodeData, e.clientX, e.clientY);
+    e.preventDefault();
+    setFileX(e.clientX);
+    setFileY(e.clientY);
+    setFile(nodeData.path);
+    setFileContext(true);
+  };
+  const handleFolder = (e, nodeData) => {
+    e.preventDefault();
+    console.log("nodeData", nodeData);
+    e.preventDefault();
+    setFolderX(e.clientX);
+    setFolderY(e.clientY);
+    setFolder(nodeData.path);
+    setFolderContext(true);
+  };
   return (
     <>
       <div
@@ -78,6 +107,7 @@ const TreeNode = ({ nodeData }) => {
         {isFolder ? (
           // Folder
           <button
+            onContextMenu={(e) => handleFolder(e, nodeData)}
             onClick={() => handleToggleVisibility(nodeData.name)}
             style={{
               display: "flex",
@@ -145,6 +175,7 @@ const TreeNode = ({ nodeData }) => {
           // File
           <p
             onDoubleClick={() => handleDoubleClick(nodeData)}
+            onContextMenu={(e) => handleRightClick(e, nodeData)}
             style={{
               display: "flex",
               alignItems: "center",

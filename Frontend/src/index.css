@@ -10,3 +10,77 @@ body {
   padding: 0;
   margin: 0;
 }
+
+.csb-modal .ant-modal-content {
+  background: #1e1e1e !important;
+  color: #d4d4d4 !important;
+  border: 1px solid #3c3c3c !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+}
+
+.csb-modal .ant-modal-body {
+  background: #1e1e1e !important;
+}
+
+.csb-modal .ant-modal-footer {
+  background: #1e1e1e !important;
+  border-top: 1px solid #3c3c3c !important;
+}
+
+.csb-modal .ant-modal-header {
+  background: #1e1e1e !important;
+  border-bottom: 1px solid #3c3c3c !important;
+}
+
+.csb-modal .ant-modal-title {
+  color: #d4d4d4 !important;
+  font-weight: 600 !important;
+}
+
+.csb-modal .ant-modal-close {
+  color: #d4d4d4 !important;
+}
+
+.csb-modal .ant-modal-close:hover {
+  color: #ffffff !important;
+  background: transparent !important;
+}
+
+.csb-modal .ant-input {
+  background: #252526 !important;
+  color: #d4d4d4 !important;
+  border: 1px solid #3c3c3c !important;
+}
+
+.csb-modal .ant-input::placeholder {
+  color: #8a8a8a !important;
+}
+
+.csb-modal .ant-input:focus,
+.csb-modal .ant-input-focused {
+  border-color: #0e639c !important;
+  box-shadow: 0 0 0 2px rgba(14, 99, 156, 0.2) !important;
+}
+
+.csb-modal .ant-btn {
+  background: #2d2d2d !important;
+  color: #d4d4d4 !important;
+  border: 1px solid #3c3c3c !important;
+}
+
+.csb-modal .ant-btn:hover {
+  background: #3a3a3a !important;
+  color: #ffffff !important;
+  border-color: #4b4b4b !important;
+}
+
+.csb-modal .ant-btn-primary {
+  background: #0e639c !important;
+  border-color: #0e639c !important;
+  color: #ffffff !important;
+}
+
+.csb-modal .ant-btn-primary:hover {
+  background: #1177bb !important;
+  border-color: #1177bb !important;
+}
