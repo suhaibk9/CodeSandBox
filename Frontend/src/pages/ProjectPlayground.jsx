@@ -6,6 +6,9 @@ import useTreeStructureStore from "../store/treeStructureStore";
 import { useEffect } from "react";
 import { useEditorSocketStore } from "../store/editorSocketStore";
 import { io } from "socket.io-client";
+
+import BrowserTerminal from "../components/molecules/Terminal/BrowserTerminal";
+
 const ProjectPlayground = () => {
   const { projectId: projectIdFromURL } = useParams();
   const { projectId, setProjectId } = useTreeStructureStore();
@@ -22,7 +25,12 @@ const ProjectPlayground = () => {
       editorSocketConntection.disconnect(); // cleanup when switching again
     };
   }, [projectIdFromURL, setProjectId]);
-
+  useEffect(() => {
+    if (editorSocket) {
+      // Use editorSocket (connected to /editor namespace) NOT the default socket
+      editorSocket.emit("getPort");
+    }
+  }, [editorSocket]);
   return (
     <div
       style={{
@@ -84,9 +92,6 @@ const ProjectPlayground = () => {
         >
           <EditorButton />
           <EditorButton isActive={true} />
-          <EditorButton fileName="File.ts" isActive={true} />
-          <EditorButton fileName="File.tsx" />
-          <EditorButton fileName="File.jsx" isActive={true} />
         </div>
 
         {/* Editor */}
@@ -98,6 +103,38 @@ const ProjectPlayground = () => {
           }}
         >
           <EditorComponent />
+        </div>
+
+        {/* Terminal */}
+        <div
+          style={{
+            height: "200px",
+            minHeight: "100px",
+            backgroundColor: "#1e1e1e",
+            borderTop: "1px solid #3c3c3c",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          {/* Terminal Header */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              padding: "4px 12px",
+              backgroundColor: "#252526",
+              borderBottom: "1px solid #3c3c3c",
+              fontSize: "12px",
+              color: "#cccccc",
+              gap: "12px",
+            }}
+          >
+            <span style={{ fontWeight: 500 }}>TERMINAL</span>
+          </div>
+          {/* Terminal Body */}
+          <div style={{ flex: 1, overflow: "hidden", padding: "4px" }}>
+            <BrowserTerminal />
+          </div>
         </div>
       </div>
     </div>
